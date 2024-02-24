@@ -74,6 +74,12 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
+  {
+    'smoka7/hop.nvim',
+    version = "v2.5.0",
+    opts = {},
+  },
+
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -248,9 +254,19 @@ vim.o.mouse = 'a'
 vim.o.wildmenu = true
 vim.o.wildmode = 'list:longest,full'
 
+vim.o.shiftwidth = 4
 vim.o.softtabstop = 4
+vim.o.expandtab = true
 
 vim.o.scrolloff = 20
+
+vim.o.smartindent = false
+
+vim.o.cinoptions = "g0,N-s,(1s,u1s,:0"
+
+vim.o.pumheight = 10
+
+vim.o.wrap = false
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -326,6 +342,7 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
+    path_display = { truncate = 2 },
   },
 }
 
@@ -363,7 +380,7 @@ vim.defer_fn(function()
     auto_install = false,
 
     highlight = { enable = true },
-    indent = { enable = true, disable = { 'rust' } },
+    indent = { enable = true, disable = { 'cpp', 'rust' } },
     incremental_selection = {
       enable = true,
       keymaps = {
@@ -553,6 +570,15 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+
+require'lspconfig'.clangd.setup(
+  {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = servers["clangd"],
+    filetypes = (servers["clangd"] or {}).filetypes,
+  }
+)
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
