@@ -76,8 +76,10 @@ require('lazy').setup({
 
   {
     'smoka7/hop.nvim',
-    version = "v2.5.0",
-    opts = {},
+    version = "*",
+    opts = {
+      hl_mode = 'replace'
+    },
   },
 
   -- NOTE: This is where your plugins related to LSP can be installed.
@@ -340,9 +342,13 @@ require('telescope').setup {
       i = {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
+        ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
+      },
+      n = {
+        ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
       },
     },
-    path_display = { truncate = 2 },
+    path_display = { 'smart' },
   },
 }
 
@@ -535,7 +541,7 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   rust_analyzer = {},
-  -- tsserver = {},
+  ts_ls = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
   lua_ls = {
